@@ -4,9 +4,13 @@ class ListsController < ApplicationController
   end
 
   def create
-    list = List.new(list_params)
-    list.save
-    redirect_to '/top'
+    @list = List.new(list_params)
+    if @list.save
+      render :new 
+      else
+        tender
+
+    
   end
 
   def index
@@ -31,6 +35,12 @@ class ListsController < ApplicationController
     list = List.new(list_params)
     list.save
     redirect_to list_path(list.id)
+  end
+
+  def destroy
+    list = List.find(params[:id])
+    list.destroy
+    redirect_to '/lists'
   end
 
   private
