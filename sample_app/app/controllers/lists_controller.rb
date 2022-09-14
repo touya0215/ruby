@@ -3,15 +3,6 @@ class ListsController < ApplicationController
     @list = List.new
   end
 
-  def create
-    @list = List.new(list_params)
-    if @list.save
-      render :new 
-      else
-        tender
-
-    
-  end
 
   def index
     @lists = List.all
@@ -37,6 +28,15 @@ class ListsController < ApplicationController
     redirect_to list_path(list.id)
   end
 
+  def create
+    @list = List.new(list_params)
+    if @list.save
+      redirect_to list_path(@list.id)
+    else
+      render :new
+    end
+  end
+
   def destroy
     list = List.find(params[:id])
     list.destroy
@@ -44,6 +44,7 @@ class ListsController < ApplicationController
   end
 
   private
+
   def list_params
     params.require(:list).permit(:title, :body, :image)
   end
